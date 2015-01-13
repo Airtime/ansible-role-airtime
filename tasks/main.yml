@@ -9,6 +9,7 @@
   # Update cache if older than 1 day
   apt: name={{ item }} state=latest update_cache=yes cache_valid_time=86400
   with_items:
+    - python-configobj  # Without, "liquidsoap --check" fails with "No module named configobj"
     - alsa-utils
     #- festival
   tags: packages
@@ -48,9 +49,8 @@
     - { q: "airtime/icecast-sourcepw",    t: "string",  v: "hackme" }
   tags: airtime
 
-- name: Install Airtime package
+- name: Install Airtime package (go get a coffee...)
   apt: name=airtime
-  # Will be used to know if we should reboot or not
   register: airtime_install
   tags: airtime
 
