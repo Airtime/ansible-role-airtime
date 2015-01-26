@@ -18,8 +18,13 @@
 # Airtime
 ######################################################################
 
+- name: Enable Multiverse (if Ubuntu)
+  apt_repository: repo="deb http://archive.ubuntu.com/ {{ansible_distribution_release}} multiverse"
+  when: ansible_distribution == 'Ubuntu'
+  tags: airtime
+
 - name: Add Airtime repository
-  apt_repository: repo="deb http://apt.sourcefabric.org/ trusty main"
+  apt_repository: repo="deb http://apt.sourcefabric.org/ {{ansible_distribution_release}} main"
                   validate_certs=no
   tags: airtime
 
