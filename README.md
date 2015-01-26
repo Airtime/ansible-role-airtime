@@ -6,20 +6,12 @@ Airtime
 This Ansible role install [Airtime](https://www.sourcefabric.org/en/airtime/),
 an "open source platform that lets you broadcast streaming radio on the web".
 
-Requirements
-------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
-
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Default Airtime `admin` password is `MyPassword`, set in
+[defaults](defaults/main.yml) through `airtime_pass_md5`. To generate your own
+password, use the command `echo -n "MyPassword" | md5sum`.
 
 Example Playbook
 ----------------
@@ -28,14 +20,10 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - ansible-role-airtime
 
 License
 -------
 
 GPLv3
 
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
