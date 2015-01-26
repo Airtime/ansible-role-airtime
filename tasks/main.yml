@@ -19,7 +19,7 @@
 ######################################################################
 
 - name: Enable Multiverse (if Ubuntu)
-  apt_repository: repo="deb http://archive.ubuntu.com/ {{ansible_distribution_release}} multiverse"
+  apt_repository: repo="deb http://archive.ubuntu.com/ubuntu {{ansible_distribution_release}} multiverse"
   when: ansible_distribution == 'Ubuntu'
   tags: airtime
 
