@@ -1,7 +1,10 @@
-Role Name
+Airtime
 =========
 
-A brief description of the role goes here.
+[![Build Status](https://travis-ci.org/mathieumd/ansible-role-airtime.svg?branch=master)](https://travis-ci.org/mathieumd/ansible-role-airtime)
+
+This Ansible role install [Airtime](https://www.sourcefabric.org/en/airtime/),
+an "open source platform that lets you broadcast streaming radio on the web".
 
 Requirements
 ------------
