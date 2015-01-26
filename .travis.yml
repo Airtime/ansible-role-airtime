@@ -10,6 +10,9 @@ env:
 before_install:
   # Make sure everything's up to date.
   - sudo apt-get update
+  # Remove already installed PostgreSQL
+  - sudo apt-get remove --purge postgresql
+  - sudo apt-get autoremove --purge
   # Build may fail because of locale
   # http://docs.travis-ci.com/user/common-build-problems/#System%3A-Required-language-pack-isn%27t-installed
   #- sudo apt-get --reinstall install -qq language-pack-en language-pack-fr
