@@ -16,8 +16,6 @@ password, use the command `echo -n "MyPassword" | md5sum`.
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
     - hosts: servers
       roles:
          - ansible-role-airtime
@@ -25,5 +23,5 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-GPLv3
+[GPLv3](https://www.gnu.org/licenses/gpl.html)
 
