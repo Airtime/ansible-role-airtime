@@ -1,24 +1,12 @@
 ---
-# tasks file for airtime
+# Installation of Airtime
+# http://sourcefabric.booktype.pro/airtime-25-for-broadcasters/automated-installation/
 
 ######################################################################
 # Packages
 ######################################################################
 
-- name: Install packages required for Airtime
-  # Update cache if older than 1 day
-  apt: name={{ item }} state=latest update_cache=yes cache_valid_time=86400
-  with_items:
-    - python-configobj  # Without, "liquidsoap --check" fails with "No module named configobj"
-    - alsa-utils
-    #- festival
-  tags: packages
-
-######################################################################
-# Airtime
-######################################################################
-
-- name: Enable Multiverse (if Ubuntu)
+- name: Enable Ubuntu's Multiverse
   apt_repository: repo="deb http://archive.ubuntu.com/ubuntu {{ansible_distribution_release}} multiverse"
   when: ansible_distribution == 'Ubuntu'
   tags: airtime
@@ -37,6 +25,14 @@
   apt: update_cache=yes
   when: keyring_install|changed
   tags: airtime
+
+- name: Install packages required for Airtime
+  apt: name={{ item }} state=latest update_cache=yes cache_valid_time=86400
+  with_items:
+    - python-configobj  # Without, "liquidsoap --check" fails with "No module named configobj"
+    - alsa-utils
+    #- festival
+  tags: packages
 
 - name: Preconfigure Airtime installation through Debconf
   debconf: name=airtime question="{{ item.q }}" value="{{ item.v }}" vtype="{{ item.t }}"
@@ -58,6 +54,10 @@
   apt: name=airtime
   register: airtime_install
   tags: airtime
+
+######################################################################
+# Airtime configuration
+######################################################################
 
 - name: Verify Airtime admin password is correct in the database
   command: sudo -u postgres psql --quiet --no-align --tuples-only -c "SELECT pass FROM cc_subjs WHERE login = 'admin'" airtime
