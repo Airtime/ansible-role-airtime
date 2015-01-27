@@ -9,22 +9,22 @@
 - name: Enable Ubuntu's Multiverse
   apt_repository: repo="deb http://archive.ubuntu.com/ubuntu {{ansible_distribution_release}} multiverse"
   when: ansible_distribution == 'Ubuntu'
-  tags: airtime
+  tags: airtime_install
 
 - name: Add Airtime repository
   apt_repository: repo="deb http://apt.sourcefabric.org/ {{ansible_distribution_release}} main"
                   validate_certs=no
-  tags: airtime
+  tags: airtime_install
 
 - name: Install Airtime publisher keyring
   apt: name=sourcefabric-keyring force=yes
   register: keyring_install
-  tags: airtime
+  tags: airtime_install
 
 - name: Update repositories
   apt: update_cache=yes
   when: keyring_install|changed
-  tags: airtime
+  tags: airtime_install
 
 - name: Install packages required for Airtime
   apt: name={{ item }} state=latest update_cache=yes cache_valid_time=86400
@@ -32,7 +32,7 @@
     - python-configobj  # Without, "liquidsoap --check" fails with "No module named configobj"
     - alsa-utils
     #- festival
-  tags: packages
+  tags: airtime_install
 
 - name: Preconfigure Airtime installation through Debconf
   debconf: name=airtime question="{{ item.q }}" value="{{ item.v }}" vtype="{{ item.t }}"
@@ -44,16 +44,16 @@
     - { q: "airtime/apache-servername",   t: "string",  v: "{{ ansible_hostname }}" }
     - { q: "airtime/apache-serveradmin",  t: "string",  v: "{{ admin_email }}" }
     - { q: "airtime/icecast-setup",       t: "boolean", v: "false" }
-    - { q: "airtime/icecast-adminpw",     t: "string",  v: "hackme" }
     - { q: "airtime/icecast-hostname",    t: "string",  v: "localhost" }
+    - { q: "airtime/icecast-adminpw",     t: "string",  v: "hackme" }
     - { q: "airtime/icecast-relaypw",     t: "string",  v: "hackme" }
     - { q: "airtime/icecast-sourcepw",    t: "string",  v: "hackme" }
-  tags: airtime
+  tags: airtime_install
 
 - name: Install Airtime package (go get a coffee...)
   apt: name=airtime
   register: airtime_install
-  tags: airtime
+  tags: airtime_install
 
 ######################################################################
 # Airtime configuration
@@ -63,11 +63,11 @@
   command: sudo -u postgres psql --quiet --no-align --tuples-only -c "SELECT pass FROM cc_subjs WHERE login = 'admin'" airtime
   register: psql_pass
   changed_when: false
-  tags: airtime
+  tags: airtime_install
 
 - name: Update Airtime admin password into the database
   command: sudo -u postgres psql --quiet --no-align --tuples-only -c "UPDATE cc_subjs SET pass = '{{ airtime_pass_md5 }}' WHERE login = 'admin'" airtime
   when: "'{{ airtime_pass_md5 }}' not in psql_pass.stdout"
-  tags: airtime
+  tags: airtime_install
 
 # vim: ft=ansible

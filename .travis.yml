@@ -40,5 +40,8 @@ script:
 
   # Request a page via the web server, to make sure it's running and responds.
   #- curl http://localhost/
-  - curl --insecure https://localhost/
+  - curl --head --insecure https://localhost/
+
+  # Verify Airtime Liquidsoap is listening (usually on localhost:1234)
+  - sudo netstat -tlnp | grep airtime
 
