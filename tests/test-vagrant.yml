@@ -1,0 +1,7 @@
+---
+- hosts: airtime
+  remote_user: vagrant
+  roles:
+    - ../../ansible-role-airtime
+
+# vim: ft=ansible
